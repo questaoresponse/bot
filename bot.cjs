@@ -13,10 +13,7 @@ client.on('ready', () => {
     console.log('Bot está pronto!');
 });
 
-client.on('message', message => {
-    if (message.body === '!responde') {
-        message.reply('N sou obrigado n');
-    }
+client.on('message', async message => {
     switch (message.body){
         case "!menu":
             message.reply(`!responde: Responde algo
@@ -24,10 +21,24 @@ client.on('message', message => {
 !calcular: no formato (x,y)(x,y), calcula a cara da função afim
             `);
             break;
+        case "!responde":
+            message.reply("N sou obrigado n");
+            break;
         case "!quem eu sou":
             message.reply("me diga com quem tu andas que eu digo quem tu eres");
     }
-    if (message.body.startsWith("!calcular")){
+    if (message.body.startsWith("!send")){
+        const p=message.body.split(" ");
+        if (p.length==3){
+            const message=p[3].slice(1, -1);
+            const mentions = await message.getMentions();
+            mentions.forEach(mention => {
+                client.sendMessage(mention.id._serialized,message);
+            });
+        } else {
+            message.reply("Formato inválido. Verifique sua mensagem e tente novamente.")
+        }
+    } else if (message.body.startsWith("!calcular")){
         try {
             const expressao=message.body.split(" ")[1];
             const ps=expressao.split(")(");
