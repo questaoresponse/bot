@@ -1,5 +1,6 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
 const qrcode = require('qrcode-terminal');
+const { DateTime } = require("luxon");
 
 const client = new Client({
     authStrategy: new LocalAuth() // Armazena login localmente
@@ -17,7 +18,13 @@ client.on('message', async message => {
     switch (message.body){
         case "!menu":
             message.reply(`!responde: Responde algo
+
 !quem eu sou: responde quem você é
+
+!send: envie uma mensagem para alguém do grupo no privado no seguinte formato: !send <Marcar @> <mensagem>
+
+!angendar: semelhante ao !send, porém agenda uma mensagem, no seguinte formato: !agendar 2025-04-22 00:00:00 <Marcar @> <mensagem>
+
 !calcular: no formato (x,y)(x,y), calcula a cara da função afim
             `);
             break;
@@ -29,15 +36,45 @@ client.on('message', async message => {
     }
     if (message.body.startsWith("!send")){
         const p=message.body.split(" ");
-        if (p.length==3){
-            const message=p[3].slice(1, -1);
+        var error=false;
+        if (p.length >= 3){
             const mentions = await message.getMentions();
-            mentions.forEach(mention => {
-                client.sendMessage(mention.id._serialized,message);
-            });
+            if (mentions.length > 0){
+                const message_to_send=p.splice(1 + mentions.length).join(" ");
+                mentions.forEach(mention => {
+                    client.sendMessage(mention.id._serialized,message_to_send);
+                });
+            } else {
+                error = true;
+            }
         } else {
-            message.reply("Formato inválido. Verifique sua mensagem e tente novamente.")
+            error = true;
         }
+        if (error) message.reply("Formato inválido. Verifique sua mensagem e tente novamente.")
+    } else if (message.body.startsWith("!agendar")){
+        const p=message.body.split(" ");
+        var error=false;
+        if (p.length >= 4){
+            try {
+                const date_string=p[1] + " " + p[2];
+                const diff = DateTime.fromFormat(date_string, "yyyy-MM-dd HH:mm:SS", {zone: "America/Sao_Paulo"}).toMillis() - DateTime.now().setZone("America/Sao_Paulo").toMillis();
+                console.log(diff,DateTime.fromFormat(date_string, "yyyy-MM-dd HH:mm:SS", {zone: "America/Sao_Paulo"}).toMillis(),new Date(date_string).getTime());
+                const mentions = await message.getMentions();
+                if (mentions.length > 0){
+                    const message_to_send=p.splice(3 + mentions.length).join(" ");
+                    setTimeout(()=>mentions.forEach(mention => {
+                        client.sendMessage(mention.id._serialized,message_to_send);
+                    }), diff);
+                } else {
+                    error = true;
+                }
+            } catch (e){
+                error = true;
+            }
+        } else {
+            error = true;
+        }
+        if (error) message.reply("Formato inválido. Verifique sua mensagem e tente novamente.")
     } else if (message.body.startsWith("!calcular")){
         try {
             const expressao=message.body.split(" ")[1];
@@ -56,7 +93,6 @@ client.on('message', async message => {
 f(x) = ${ a == 1 ? "x" : String(a)+"x" } ${b >= 0 ? "+" : "-"} ${Math.abs(b)}
             `);
         } catch (e){
-            console.log(e);
             message.reply("Ocorreu um erro ao calcular. Verifique sua resposta");
         }
     }
