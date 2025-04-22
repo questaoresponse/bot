@@ -23,7 +23,7 @@ client.on('message', async message => {
 
 !send: envie uma mensagem para alguém do grupo no privado no seguinte formato: !send <Marcar @> <mensagem>
 
-!angendar: semelhante ao !send, porém agenda uma mensagem, no seguinte formato: !agendar 2025-04-22 00:00:00 <Marcar @> <mensagem>
+!angendar: semelhante ao !send, porém agenda uma mensagem, no seguinte formato: !agendar 2025-04-22 00:00:00 <Marcar @> <mensagem> ou !agendar 2025-04-22 00:00:00 <número de vezes para enviar> <@Marcar @> <mensagem>
 
 !calcular: no formato (x,y)(x,y), calcula a cara da função afim
             `);
@@ -56,14 +56,22 @@ client.on('message', async message => {
         var error=false;
         if (p.length >= 4){
             try {
-                const date_string=p[1] + " " + p[2];
-                const diff = DateTime.fromFormat(date_string, "yyyy-MM-dd HH:mm:SS", {zone: "America/Sao_Paulo"}).toMillis() - DateTime.now().setZone("America/Sao_Paulo").toMillis();
-                console.log(diff,DateTime.fromFormat(date_string, "yyyy-MM-dd HH:mm:SS", {zone: "America/Sao_Paulo"}).toMillis(),new Date(date_string).getTime());
                 const mentions = await message.getMentions();
                 if (mentions.length > 0){
-                    const message_to_send=p.splice(3 + mentions.length).join(" ");
+                    var count = 0;
+                    var number_to_repeat = 0;
+                    if (!p[3].startsWith("@")){
+                        count = 1;
+                        number_to_repeat = Number(p[3]);
+                    }
+                    const date_string=p[1] + " " + p[2];
+                    const diff = new Date(date_string).getTime() - DateTime.now().setZone("America/Sao_Paulo").toMillis() + 1000;
+                    const mentions = await message.getMentions();
+                    const message_to_send=p.splice(3 + count + mentions.length).join(" ");
                     setTimeout(()=>mentions.forEach(mention => {
-                        client.sendMessage(mention.id._serialized,message_to_send);
+                        for (var i=0; i < number_to_repeat; i++){
+                            client.sendMessage(mention.id._serialized,message_to_send);
+                        }
                     }), diff);
                 } else {
                     error = true;

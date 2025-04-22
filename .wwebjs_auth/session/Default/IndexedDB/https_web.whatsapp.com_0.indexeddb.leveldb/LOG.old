@@ -1,13 +1,15 @@
-2025/04/21-23:45:09.673 24058 Reusing MANIFEST C:\Users\SAMSUNG\Documents\sclub\bots\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2025/04/21-23:45:09.673 24058 Recovering log #100
-2025/04/21-23:45:09.813 24058 Reusing old log C:\Users\SAMSUNG\Documents\sclub\bots\bot\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/000100.log 
-2025/04/21-23:45:22.672 19a5c Level-0 table #105: started
-2025/04/21-23:45:22.965 19a5c Level-0 table #105: 202032 bytes OK
-2025/04/21-23:45:23.099 19a5c Delete type=0 #100
-2025/04/21-23:45:23.188 23c78 Manual compaction at level-0 from '\x00+\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00,\x00\x00\x00' @ 0 : 0; will stop at (end)
-2025/04/21-23:45:27.344 19a5c Compacting 1@1 + 1@2 files
-2025/04/21-23:45:28.473 19a5c Generated table #106@1: 42292 keys, 1684448 bytes
-2025/04/21-23:45:28.473 19a5c Compacted 1@1 + 1@2 files => 1684448 bytes
-2025/04/21-23:45:28.526 19a5c compacted to: files[ 0 0 1 0 0 0 0 ]
-2025/04/21-23:45:28.526 19a5c Delete type=2 #102
-2025/04/21-23:45:28.526 19a5c Delete type=2 #105
+2025/04/22-13:13:33.971 6476 Reusing MANIFEST /home/lims/Documentos/bot/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/04/22-13:13:33.971 6476 Recovering log #275
+2025/04/22-13:13:34.027 6476 Reusing old log /home/lims/Documentos/bot/.wwebjs_auth/session/Default/IndexedDB/https_web.whatsapp.com_0.indexeddb.leveldb/000275.log 
+2025/04/22-13:13:35.839 64a3 Level-0 table #281: started
+2025/04/22-13:13:35.905 64a3 Level-0 table #281: 483135 bytes OK
+2025/04/22-13:13:35.942 64a3 Delete type=0 #275
+2025/04/22-13:13:35.943 64a3 Manual compaction at level-0 from '\x00Q\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00R\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/04/22-13:13:38.638 6469 Compacting 1@1 + 2@2 files
+2025/04/22-13:13:38.794 6469 Generated table #282@1: 74332 keys, 2246269 bytes
+2025/04/22-13:13:38.940 6469 Generated table #283@1: 21665 keys, 1098450 bytes
+2025/04/22-13:13:38.940 6469 Compacted 1@1 + 2@2 files => 3344719 bytes
+2025/04/22-13:13:38.978 6469 compacted to: files[ 0 0 2 0 0 0 0 ]
+2025/04/22-13:13:38.979 6469 Delete type=2 #281
+2025/04/22-13:13:38.979 6469 Delete type=2 #277
+2025/04/22-13:13:38.979 6469 Delete type=2 #278
